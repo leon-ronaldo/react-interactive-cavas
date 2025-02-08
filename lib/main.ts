@@ -1,3 +1,4 @@
-export function helloAnything(thing: string): string {
-    return `Hello ${thing}!`
-}
+import CanvasBox from "./components/Box";
+import ReactiveCanvas from "./components/Canvas";
+
+export { ReactiveCanvas, CanvasBox }

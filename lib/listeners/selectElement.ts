@@ -1,13 +1,38 @@
-export default function selectElement(event: globalThis.MouseEvent) {
-    const canvas = (document.getElementsByClassName("reactive-canvas")[0] as HTMLDivElement);
-    const bounds = canvas.getBoundingClientRect();
+import insideBounds from "../utils/bounds";
+import useCanvasContextValues from "../utils/contextUtils";
 
-    const insideXBounds = event.offsetX >= bounds.left && event.offsetX <= bounds.right;
-    const insideYBounds = event.offsetX >= bounds.top && event.offsetX <= bounds.bottom;
+export default function selectElement(event: MouseEvent) {
+    const { elements, setElements } = useCanvasContextValues();
+    const canvas = document.getElementById("reactive-canvas") as HTMLDivElement;
 
-    if (insideXBounds && insideYBounds) {
-        
-    }
+    if (!canvas || !insideBounds(canvas, event)) return;
 
-    return
+    const mouseOverElements = elements.filter((item) => {
+        const htmlElement = document.getElementById(item.id);
+        return htmlElement ? insideBounds(htmlElement, event) : false;
+    });
+
+    if (mouseOverElements.length === 0) return;
+
+    const selectedElement = mouseOverElements.reduce((highest, item) =>
+        item.zIndex > highest.zIndex ? item : highest
+    );
+
+    setElements((prevElements) =>
+        prevElements.map((element) => ({
+            ...element,
+            selected: element.id === selectedElement.id,
+        }))
+    );
+
+    elements.forEach((element) => {
+        const elem = document.getElementById(element.id);
+        if (elem) {
+            if (element.id === selectedElement.id) {
+                elem.classList.add("selected");
+            } else {
+                elem.classList.remove("selected");
+            }
+        }
+    });
 }

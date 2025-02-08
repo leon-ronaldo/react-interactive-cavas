@@ -1,5 +1,8 @@
 import React, { HTMLAttributes, JSX, ReactNode } from "react";
 import CanvasProvider from "../contexts/canvasContext";
+import useCanvasContextValues from "../utils/contextUtils";
+import { ElementTypes } from "../types/componentProperties";
+import CanvasBox from "./Box";
 
 interface CanvasProps {
     props: HTMLAttributes<HTMLDivElement>,
@@ -7,11 +10,18 @@ interface CanvasProps {
 }
 
 const ReactiveCanvas: React.FC<CanvasProps> = (args) => {
-    return <div {...args.props} className={`reactive-canvas ${args.props.className || ''}`}>
-        <CanvasProvider>
+    const { elements } = useCanvasContextValues()
+
+    return <CanvasProvider>
+        <div {...args.props} className={`${args.props.className || ''}`} id="reactive-canvas">
             {args.children}
-        </CanvasProvider>
-    </div>;
+            {elements.map((element, key) => {
+                if (element.type === ElementTypes.box) {
+                    return <CanvasBox elementStruct={element} />
+                }
+            })}
+        </div>
+    </CanvasProvider>;
 }
 
 export default ReactiveCanvas
