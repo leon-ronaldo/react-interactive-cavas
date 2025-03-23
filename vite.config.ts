@@ -10,6 +10,9 @@ export default defineConfig({
     dts({ include: ['lib'] })
   ],
   build: {
+    rollupOptions: {
+      external: ['react', 'react/jsx-runtime']
+    },
     lib: {
       entry: resolve(__dirname, 'lib/main.ts'),
       formats: ['es']

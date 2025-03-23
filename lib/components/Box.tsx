@@ -6,7 +6,7 @@ interface BoxProps {
     elementStruct: ElementStruct
 }
 
-export default function CanvasBox(args: BoxProps): JSX.Element {
+export function CanvasBox(args: BoxProps): JSX.Element {
     const { elementStruct, props } = args;
 
     const elementStyles: React.CSSProperties = {

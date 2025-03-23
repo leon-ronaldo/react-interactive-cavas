@@ -1,4 +1,2 @@
-import CanvasBox from "./components/Box";
-import ReactiveCanvas from "./components/Canvas";
-
-export { ReactiveCanvas, CanvasBox }
+export { CanvasBox } from './components/Box'
+export { ReactiveCanvas } from './components/Canvas'

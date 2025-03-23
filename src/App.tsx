@@ -1,33 +1,30 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
 import './App.css'
+import { ReactiveCanvas } from '../lib/main'
+import CanvasProvider from '../lib/contexts/canvasContext'
+import useAddCanvasBox from '../lib/utils/addBox'
+import { MouseEventHandler, useEffect, useState } from 'react'
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [addBox, setAddBox] = useState<MouseEventHandler>()
+
+  useEffect(() => {
+    setAddBox(useAddCanvasBox())
+  }, [])
 
   return (
     <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <CanvasProvider>
+        <div className='flex w-full h-full items-stretch'>
+          <div className='bg-white p-3 h-full flex items-center'>
+            <button onClick={addBox}>
+              Add rect
+            </button>
+          </div>
+          <div className='flex-1 flex items-center justify-center'>
+            <ReactiveCanvas props={{ className: "w-[400px] h-[400px] shadow-sm bg-white" }} />
+          </div>
+        </div>
+      </CanvasProvider>
     </>
   )
 }

@@ -19,7 +19,7 @@ const CanvasProvider: React.FC<{ children?: ReactNode }> = ({ children }) => {
         const canvas = useCanvas()
         const canvasBounds = canvas.getBoundingClientRect()
         setSpawnOrigin({x: canvasBounds.width / 2, y: canvasBounds.height / 2})
-    })
+    }, [])
 
     return <CanvasContext.Provider value={{ elements, setElements, spawnOrigin, setSpawnOrigin }}>
         {children}
